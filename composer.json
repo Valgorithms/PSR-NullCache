@@ -16,7 +16,7 @@
     },
     "provide": {
 //        "psr/cache-implementation": "1.0",
-        "psr/simple-cache-implementation": "1.0",
+        "psr/simple-cache-implementation": "1.0"
     },
     "autoload": {
         "psr-4": {
