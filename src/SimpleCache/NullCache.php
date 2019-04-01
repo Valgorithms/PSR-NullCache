@@ -15,10 +15,14 @@ class NullCache implements CacheInterface
         $this->defaultBool = $defaultBool;
     }
 
+    public static function typeString($object){
+        return \is_object($object) ? \get_class($object) : \gettype($object);
+    }
+
     public static function validateKey($key)
     {
         if (!\is_string($key)) {
-            throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given', \is_object($key) ? \get_class($key) : \gettype($key)));
+            throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given', self::typeString($key)));
         }
         if ('' === $key) {
             throw new InvalidArgumentException('Cache key length must be greater than zero');
@@ -37,7 +41,7 @@ class NullCache implements CacheInterface
         }
         if (!\is_array($travers)) {
             throw new InvalidArgumentException(sprintf('Cache keys must be array or Traversable, "%s" given',
-                \is_object($travers) ? \get_class($travers) : \gettype($travers)));
+                self::typeString($travers)));
         }
 
         return $travers;
@@ -89,9 +93,11 @@ class NullCache implements CacheInterface
     /** @inheritdoc */
     public function setMultiple($values, $ttl = null)
     {
-        $values = self::traversToArray($values);
+        $KeyValues = self::traversToArray($values);
 
-        //        self::validateKey($values);
+        foreach ($KeyValues as $key=>$__){
+            self::validateKey($key);
+        }
 
         return $this->defaultBool;
     }

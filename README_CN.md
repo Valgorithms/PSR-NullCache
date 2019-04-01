@@ -1,7 +1,7 @@
-NullCache | [中文说明](README_CN.md)
+NullCache | [ENGLISH](README.md)
 ----
 
-This Package Is a `Null` implementation of PSR-16 `SimpleCache` with `Basic data validation`
+本包是、 `Null` implementation of PSR-16 `SimpleCache` with `Basic data validation`
 
 # Why this Package ?
 
