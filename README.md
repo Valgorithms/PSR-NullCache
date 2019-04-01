@@ -1,4 +1,5 @@
-NullCache, An implementation of PSR-16  `SimpleCache` with `Basic data validation`
+NullCache 
+An implementation of PSR-16  `SimpleCache` with `Basic data validation`
 ----
 # Why this Package ?
 
