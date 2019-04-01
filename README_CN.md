@@ -1,7 +1,7 @@
 NullCache | [ENGLISH](README.md)
 ----
 
-本包是、 `Null` implementation of PSR-16 `SimpleCache` with `Basic data validation`
+This Package Is a `Null` implementation of PSR-16 `SimpleCache` with `Basic data validation`
 
 # Why this Package ?
 
@@ -24,6 +24,8 @@ You Will have these check if you use These Package,`InvalidArgumentException` wi
 to let you know your  problem in  earlier.
 
 # Usage
+ 
+ `composer require ihipop/psr-null-cache`
  
  In your `__construction` or `DI container` initialization
  ```

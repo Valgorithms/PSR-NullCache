@@ -25,6 +25,8 @@ to let you know your  problem in  earlier.
 
 # Usage
  
+ `composer require ihipop/psr-null-cache`
+ 
  In your `__construction` or `DI container` initialization
  ```
  ///...
