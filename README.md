@@ -1,0 +1,1 @@
+NullCache, An implementation of PSR-16  `SimpleCache` with Basic data valid check
