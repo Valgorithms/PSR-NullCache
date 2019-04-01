@@ -17,7 +17,7 @@ if ($this->logger){
 
 Then You need this Package.
 
-## Amd want some Basic data validation ? 
+## And want some Basic data validation ? 
 
 PSR-16 have some special `InvalidArgumentException` to throw when enter with invalid data.
 You Will have these check if you use These Package,`InvalidArgumentException` will be thrown when it is necessary ,
