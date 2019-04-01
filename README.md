@@ -1,6 +1,8 @@
-NullCache 
-An implementation of PSR-16  `SimpleCache` with `Basic data validation`
+NullCache
 ----
+
+This Package Is a `Null` implementation of PSR-16 `SimpleCache` with `Basic data validation`
+
 # Why this Package ?
 
 There is nothing like [NullLogger](https://github.com/php-fig/log/blob/master/Psr/Log/NullLogger.php) of PSR-3 in PSR-16/PSR-6
@@ -15,11 +17,11 @@ if ($this->logger){
 
 Then You need this Package.
 
-## Want some Basic data validation ? 
+## Amd want some Basic data validation ? 
 
-PSR-16 have some special `InvalidArgumentException` to throw when enter with invalid data
-We have these check. if you use These Package,`InvalidArgumentException` will be thrown when it is necessary ,
-to let you know your  problem in code earlier.
+PSR-16 have some special `InvalidArgumentException` to throw when enter with invalid data.
+You Will have these check if you use These Package,`InvalidArgumentException` will be thrown when it is necessary ,
+to let you know your  problem in  earlier.
 
 # Usage
  
@@ -29,3 +31,7 @@ to let you know your  problem in code earlier.
 $logger = new \ihipop\PsrNullCache\SimpleCache\NullCache(false);
 ///...
  ```
+
+# CacheInterfaceProxy
+
+Use this trait when you want to compatible with PSR `CacheInterface`  quickly
