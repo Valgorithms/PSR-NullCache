@@ -10,9 +10,15 @@ There is nothing like [NullLogger](https://github.com/php-fig/log/blob/master/Ps
 ## I (Or if you) don't  want to write these code every where
 
 ```php
-if ($this->logger){
-    $this->logger->error($message,$contex);
+//...
+if ($this->cache){
+    $this->cache->set($key,$value,$ttl);
 }
+//...
+if ($this->cache){
+    $this->cache->get($key)
+}
+//...
 ```
 
 Then You need this Package.
