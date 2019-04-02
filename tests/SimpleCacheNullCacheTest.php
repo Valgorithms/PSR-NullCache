@@ -15,102 +15,20 @@ class SimpleCacheNullCacheTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->nullCache  = new \ihipop\PsrNullCache\SimpleCache\NullCache(false);
-        $this->invalidKey = str_split('{}()/\@:');
+        $this->invalidKey = array_merge([''], str_split('{}()/\@:'));
     }
 
-    public function testInvalidKeySet()
+    protected function performKeyTest(callable $action, array $invalidKeyChr)
     {
-        $invalidKeyChr      = array_merge([new stdClass(), ''], $this->invalidKey);
         $totalException     = count($invalidKeyChr);
         $exceptionContainer = [];
         foreach ($invalidKeyChr as $key) {
             try {
-                $this->nullCache->set($key, 'foobar');
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
-    }
-
-    public function testInvalidKeyGet()
-    {
-        $invalidKeyChr      = array_merge([new stdClass(), ''], $this->invalidKey);
-        $totalException     = count($invalidKeyChr);
-        $exceptionContainer = [];
-        foreach ($invalidKeyChr as $key) {
-            try {
-                $this->nullCache->get($key);
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
-    }
-
-    public function testInvalidKeyDelete()
-    {
-        $invalidKeyChr  = array_merge([new stdClass(), ''], $this->invalidKey);
-        $totalException = count($invalidKeyChr);
-        foreach ($invalidKeyChr as $key) {
-            try {
-                $this->nullCache->delete($key);
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
-    }
-
-    public function testInvalidKeyHas()
-    {
-        $invalidKeyChr      = array_merge([new stdClass(), ''], $this->invalidKey);
-        $totalException     = count($invalidKeyChr);
-        $exceptionContainer = [];
-        foreach ($invalidKeyChr as $key) {
-            try {
-                $this->nullCache->has($key);
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
-    }
-
-    public function testInvalidKeySetMultiple()
-    {
-        $invalidKeyChr      = array_merge([''], $this->invalidKey);
-        $totalException     = count($invalidKeyChr);
-        $exceptionContainer = [];
-        foreach ($invalidKeyChr as $key) {
-            try {
-                $this->nullCache->setMultiple(['foo' => 'bar', $key => 'bar']);
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
-    }
-
-    public function testInvalidKeyGetMultiple()
-    {
-        $invalidKeyChr      = array_merge([''], $this->invalidKey);
-        $totalException     = count($invalidKeyChr);
-        $exceptionContainer = [];
-        foreach ($invalidKeyChr as $key) {
-            try {
-                foreach ($this->nullCache->getMultiple(['foo', $key]) as $iter) {
-                    // fo nothing
+                $ret = $action($key);
+                if ($ret instanceof  \Traversable) {
+                    foreach ($ret as $K => $__) {
+                        //Do nothing to trig the error
+                    }
                 }
             } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
                 $exceptionContainer[] = $e;
@@ -120,21 +38,59 @@ class SimpleCacheNullCacheTest extends TestCase
         $this->assertEquals($totalException, count($exceptionContainer));
         $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
     }
+    public function testInvalidKeySet()
+    {
+        $invalidKeyChr      = array_merge([new stdClass()], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            $this->nullCache->set($key, 'Foobar');
+        }, $invalidKeyChr);
+    }
+
+    public function testInvalidKeyGet()
+    {
+        $invalidKeyChr      = array_merge([new stdClass()], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            $this->nullCache->get($key);
+        }, $invalidKeyChr);
+    }
+
+    public function testInvalidKeyDelete()
+    {
+        $invalidKeyChr  = array_merge([new stdClass()], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            $this->nullCache->delete($key);
+        }, $invalidKeyChr);
+    }
+
+    public function testInvalidKeyHas()
+    {
+        $invalidKeyChr      = array_merge([new stdClass()], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            $this->nullCache->has($key);
+        }, $invalidKeyChr);
+    }
+
+    public function testInvalidKeySetMultiple()
+    {
+        $invalidKeyChr      = array_merge([], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            $this->nullCache->setMultiple(['foo' => 'bar', $key => 'bar']);
+        }, $invalidKeyChr);
+    }
+
+    public function testInvalidKeyGetMultiple()
+    {
+        $invalidKeyChr      = array_merge([], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            return $this->nullCache->getMultiple(['foo', $key]);
+        }, $invalidKeyChr);
+    }
 
     public function testInvalidKeyDeleteMultiple()
     {
-        $invalidKeyChr      = array_merge([''], $this->invalidKey);
-        $totalException     = count($invalidKeyChr);
-        $exceptionContainer = [];
-        foreach ($invalidKeyChr as $key) {
-            try {
-                $this->nullCache->deleteMultiple(['foo', $key]);
-            } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-                $exceptionContainer[] = $e;
-            }
-        }
-
-        $this->assertEquals($totalException, count($exceptionContainer));
-        $this->assertContainsOnlyInstancesOf(\Psr\SimpleCache\InvalidArgumentException::class, $exceptionContainer);
+        $invalidKeyChr      = array_merge([], $this->invalidKey);
+        $this->performKeyTest(function ($key) {
+            return $this->nullCache->deleteMultiple(['foo', $key]);
+        }, $invalidKeyChr);
     }
 }
