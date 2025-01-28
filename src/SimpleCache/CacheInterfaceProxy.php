@@ -1,23 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ihipop\PsrNullCache\SimpleCache;
 
+use Psr\SimpleCache\CacheInterface;
+
 trait CacheInterfaceProxy
 {
+    protected CacheInterface $realCacheClient;
 
-    /** @var \Psr\SimpleCache\CacheInterface */
-    protected $realCacheClient;
-
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         return call_user_func_array([$this->realCacheClient, $name], $arguments);
-    }
-
-    /** @inheritdoc */
-    public function set($key, $value, $ttl = null)
-    {
-
-        return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());
     }
 
     /** @inheritdoc */
@@ -27,13 +20,7 @@ trait CacheInterfaceProxy
     }
 
     /** @inheritdoc */
-    public function getMultiple($keys, $default = null)
-    {
-        return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());
-    }
-
-    /** @inheritdoc */
-    public function setMultiple($values, $ttl = null)
+    public function set($key, $value, $ttl = null)
     {
         return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());
     }
@@ -51,7 +38,18 @@ trait CacheInterfaceProxy
     }
 
     /** @inheritdoc */
+    public function getMultiple($keys, $default = null)
+    {
+        return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());
+    }
 
+    /** @inheritdoc */
+    public function setMultiple($values, $ttl = null)
+    {
+        return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());
+    }
+
+    /** @inheritdoc */
     public function deleteMultiple($keys)
     {
         return call_user_func_array([$this->realCacheClient, __FUNCTION__], func_get_args());

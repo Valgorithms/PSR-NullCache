@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ihipop\PsrNullCache\Exception;
 
@@ -6,6 +6,4 @@ use Psr\Cache\InvalidArgumentException as Psr6CacheInvalidArgumentExceptionInter
 use Psr\SimpleCache\InvalidArgumentException as SimpleCacheInvalidArgumentExceptionInterface;
 
 class InvalidArgumentException extends \InvalidArgumentException implements Psr6CacheInvalidArgumentExceptionInterface, SimpleCacheInvalidArgumentExceptionInterface
-{
-
-}
+{}
