@@ -12,9 +12,9 @@ class SimpleCacheNullCacheTest extends TestCase
     protected NullCache $nullCache;
     protected array $invalidKey;
 
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
+    protected function setUp(): void
     {
-        parent::__construct($name, $data, $dataName);
+        parent::setUp();
         $this->nullCache  = new NullCache(false);
         $this->invalidKey = array_merge([''], str_split('{}()/\@:'));
     }
